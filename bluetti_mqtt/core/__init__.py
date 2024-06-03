@@ -1,5 +1,6 @@
 from .devices.bluetti_device import BluettiDevice
 from .devices.ac200m import AC200M
+from .devices.ac240 import AC240
 from .devices.ac300 import AC300
 from .devices.ac500 import AC500
 from .devices.ac60 import AC60
