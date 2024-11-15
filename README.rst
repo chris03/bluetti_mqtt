@@ -51,6 +51,18 @@ not set an interval.
 
     $ bluetti-mqtt --broker [MQTT_BROKER_HOST] 00:11:22:33:44:55 00:11:22:33:44:66
 
+To enable prometheus metrics you can add ``--prometheus`` to the command line, for example:
+
+.. code-block:: bash
+
+   $ bluetti-mqtt --broker [MQTT_BROKER_HOST] --interval 60 --prometheus 00:11:22:33:44:55
+
+The metrics will be available from localhost port 9219, you may check them with:
+
+.. code-block:: bash
+
+   $ curl localhost:9219/metrics
+
 Background Service
 ------------------
 
