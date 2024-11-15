@@ -13,6 +13,12 @@ Installation
 
     $ pip install bluetti_mqtt
 
+To use a specific version from git you can also use
+
+.. code-block:: bash
+
+   $ pip install https://github.com/desalvo/bluetti_mqtt/archive/refs/tags/v0.15.2.tar.gz
+
 Usage
 -----
 
@@ -72,6 +78,7 @@ rebooting, you'll also need to run ``sudo systemctl enable bluetti-mqtt``.
     [Install]
     WantedBy=multi-user.target
 
+If you want to enable prometheus metrics add ``--prometheus`` to the ExecStart directive.
 
 
 Home Assistant Integration
