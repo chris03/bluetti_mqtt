@@ -10,7 +10,7 @@ from .manager import MultiDeviceManager
 from bluetti_mqtt.bluetooth.encryption import is_device_using_encryption
 
 
-DEVICE_NAME_RE = re.compile(r'^(AC180|AC200M|AC300|AC500|AC60|EP500P|EP500|EP600|EB3A)(\d+)$')
+DEVICE_NAME_RE = re.compile(r'^(AC180|AC200M|AC300|AC500|AC60|EP500P|EP500|EP600|EB3A|EL30V2)(\d+)$')
 
 
 async def scan_devices():
@@ -28,8 +28,8 @@ async def scan_devices():
 
 def build_device(address: str, name: str):
     match = DEVICE_NAME_RE.match(name)
-    if match[1] == 'AC180':
-        return V2Device(address, match[2], 'AC180')
+    if match[1] == 'AC180' or match[1] == 'EL30V2':
+        return V2Device(address, match[2], match[1])
     if match[1] == 'AC200M':
         return AC200M(address, match[2])
     if match[1] == 'AC300':
