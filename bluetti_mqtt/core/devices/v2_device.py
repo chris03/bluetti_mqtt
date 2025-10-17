@@ -67,6 +67,7 @@ class ChargingMode(Enum):
     STANDARD = 0
     SILENT = 1
     TURBO = 2
+    CUSTOM = 4
 
 class V2Device(BluettiDevice):
     def __init__(self, address: str, sn: str, type: str):
