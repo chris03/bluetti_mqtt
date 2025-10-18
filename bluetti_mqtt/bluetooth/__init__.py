@@ -3,14 +3,14 @@ import re
 from typing import Set
 from bleak import BleakScanner
 from bleak.backends.device import BLEDevice
-from bluetti_mqtt.core import BluettiDevice, V2Device, AC200M, AC300, AC500, AC60, EP500, EP500P, EP600, EB3A
+from bluetti_mqtt.core import BluettiDevice, V2Device, AC200M, AC240, AC300, AC500, AC60, EP500, EP500P, EP600, EB3A
 from .client import BluetoothClient
 from .exc import BadConnectionError, ModbusError, ParseError
 from .manager import MultiDeviceManager
 from bluetti_mqtt.bluetooth.encryption import is_device_using_encryption
 
 
-DEVICE_NAME_RE = re.compile(r'^(AC180|AC200M|AC300|AC500|AC60|EP500P|EP500|EP600|EB3A|EL30V2)(\d+)$')
+DEVICE_NAME_RE = re.compile(r'^(AC180|AC200M|AC240|AC300|AC500|AC60|EP500P|EP500|EP600|EB3A|EL30V2)(\d+)$')
 
 
 async def scan_devices():
@@ -32,6 +32,8 @@ def build_device(address: str, name: str):
         return V2Device(address, match[2], match[1])
     if match[1] == 'AC200M':
         return AC200M(address, match[2])
+    if match[1] == 'AC240':
+        return AC240(address, match[2])
     if match[1] == 'AC300':
         return AC300(address, match[2])
     if match[1] == 'AC500':

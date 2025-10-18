@@ -36,7 +36,7 @@ class AutoSleepMode(Enum):
     NEVER = 5
 
 
-class AC500(BluettiDevice):
+class AC240(BluettiDevice):
     def __init__(self, address: str, sn: str):
         self.struct = DeviceStruct()
 
@@ -95,7 +95,7 @@ class AC500(BluettiDevice):
         # 3039-3056 is the time control programming
         self.struct.add_enum_field('auto_sleep_mode', 3061, AutoSleepMode)
 
-        super().__init__(address, 'AC500', sn)
+        super().__init__(address, 'AC240', sn)
 
     @property
     def pack_num_max(self):

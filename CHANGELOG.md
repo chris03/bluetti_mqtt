@@ -2,6 +2,14 @@
 
 ## FUTURE
 
+## 0.15.2
+
+* Add prometheus exporter option
+
+## 0.15.1
+
+* Add support for AC240
+
 ## 0.15.0
 
 * Add additional battery pack details for AC200M, AC300, EP500(P), and AC500

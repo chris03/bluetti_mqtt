@@ -10,6 +10,7 @@ from bluetti_mqtt.bluetooth import scan_devices
 from bluetti_mqtt.bus import EventBus
 from bluetti_mqtt.device_handler import DeviceHandler
 from bluetti_mqtt.mqtt_client import MQTTClient
+from prometheus_client import start_http_server, Gauge
 
 
 class CommandLineHandler:
@@ -24,6 +25,10 @@ class CommandLineHandler:
             '--scan',
             action='store_true',
             help='Scans for devices and prints out addresses')
+        parser.add_argument(
+            '--prometheus',
+            action='store_true',
+            help='Enable prometheus exporter on port 9219')
         parser.add_argument(
             '--broker',
             metavar='HOST',
@@ -129,6 +134,9 @@ class CommandLineHandler:
         self.background_tasks.add(bluetooth_task)
         bluetooth_task.add_done_callback(self.background_tasks.discard)
 
+        # Start prometheus exporter
+        if (args.prometheus):
+            start_http_server(9219)
 
 def handle_global_exception(loop, context):
     if 'exception' in context:
