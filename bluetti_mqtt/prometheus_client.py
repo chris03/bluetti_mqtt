@@ -3,7 +3,7 @@ from typing import List
 from bluetti_mqtt.bus import EventBus, ParserMessage
 from bluetti_mqtt.core import BluettiDevice
 from bluetti_mqtt.mqtt_client import NORMAL_DEVICE_FIELDS, MqttFieldType
-from prometheus_client import start_http_server, Gauge
+from prometheus_client import start_http_server, Gauge, Info
 
 PROMETHEUS_FIELDS = {
     'dc_input_power': Gauge('bluetti_dc_input_power','DC input power'),
@@ -53,8 +53,6 @@ PROMETHEUS_FIELDS = {
 }
 
 class PrometheusClient:
-    devices: List[BluettiDevice]
-
     def __init__(
         self,
         bus: EventBus,
@@ -62,7 +60,7 @@ class PrometheusClient:
     ):
         self.bus = bus
         self.port = port
-        self.devices = []
+        self.device_info = Info('device_info', 'Info about the device')
 
     def start(self):
         logging.info(f"Starting Prometheus client on port {self.port}...")
@@ -71,7 +69,9 @@ class PrometheusClient:
 
     async def handle_message(self, msg: ParserMessage):
         logging.debug(f'Got a message from {msg.device}: {msg.parsed}')
-        #topic_prefix = f'bluetti/state/{msg.device.type}-{msg.device.sn}/'
+
+        # Publish device info
+        self.device_info.info({'device': msg.device.type, 'sn': msg.device.sn})
 
         # Publish normal fields
         for name, value in msg.parsed.items():
