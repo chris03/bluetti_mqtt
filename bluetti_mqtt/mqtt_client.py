@@ -9,7 +9,6 @@ from aiomqtt import Client, MqttError
 from paho.mqtt.client import MQTTMessage
 from bluetti_mqtt.bus import CommandMessage, EventBus, ParserMessage
 from bluetti_mqtt.core import BluettiDevice, DeviceCommand
-from prometheus_client import Gauge
 
 
 @unique
@@ -710,7 +709,6 @@ class MQTTClient:
                 topic_prefix + f'pack_details{msg.parsed["pack_num"]}',
                 payload=json.dumps(pack_details, separators=(',', ':')).encode()
             )
-
 
         # Publish DC input data
         if 'internal_dc_input_voltage' in msg.parsed:
