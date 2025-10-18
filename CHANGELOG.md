@@ -2,6 +2,10 @@
 
 ## FUTURE
 
+## 0.16.0
+
+* Update prometheus exporter to be standalone
+
 ## 0.15.2
 
 * Add prometheus exporter option

@@ -1,23 +1,23 @@
 ============
-bluetti_mqtt
+Bluetti MQTT / Prometheus Exporter
 ============
 
-This tool provides an MQTT interface to Bluetti power stations. State will be
-published to the ``bluetti/state/[DEVICE NAME]/[PROPERTY]`` topic, and commands
-can be sent to the ``bluetti/command/[DEVICE NAME]/[PROPERTY]`` topic.
+Provides information on Bluetti power station device.
+
+Either by publishing to an MQTT broker, and/or by exposing Prometheus metrics.
+
+State will be published to the ``bluetti/state/[DEVICE NAME]/[PROPERTY]`` topic, and commands can be sent to the ``bluetti/command/[DEVICE NAME]/[PROPERTY]`` topic.
+
+Prometheus metrics will be exposed on port 9219 by default.
 
 Installation
 ------------
 
-.. code-block:: bash
-
-    $ pip install bluetti_mqtt
-
-To use a specific version from git you can also use
+From Git:
 
 .. code-block:: bash
 
-   $ pip install https://github.com/desalvo/bluetti_mqtt/archive/refs/tags/v0.15.2.tar.gz
+   $ pip install https://github.com/chris03/bluetti_mqtt/archive/refs/heads/main.zip
 
 Usage
 -----
@@ -55,7 +55,7 @@ To enable prometheus metrics you can add ``--prometheus`` to the command line, f
 
 .. code-block:: bash
 
-   $ bluetti-mqtt --broker [MQTT_BROKER_HOST] --interval 60 --prometheus 00:11:22:33:44:55
+   $ bluetti-mqtt --prometheus 00:11:22:33:44:55
 
 The metrics will be available from localhost port 9219, you may check them with:
 
