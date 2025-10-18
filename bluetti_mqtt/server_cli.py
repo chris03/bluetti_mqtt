@@ -10,8 +10,7 @@ from bluetti_mqtt.bluetooth import scan_devices
 from bluetti_mqtt.bus import EventBus
 from bluetti_mqtt.device_handler import DeviceHandler
 from bluetti_mqtt.mqtt_client import MQTTClient
-from prometheus_client import start_http_server, Gauge
-
+from bluetti_mqtt.prometheus_client import PrometheusClient
 
 class CommandLineHandler:
     def __init__(self, argv=None):
@@ -78,7 +77,7 @@ class CommandLineHandler:
 
         if args.scan:
             asyncio.run(scan_devices())
-        elif args.hostname and len(args.addresses) > 0:
+        elif args.hostname and len(args.addresses) > 0 or args.prometheus:
             self.start(args)
         else:
             parser.print_help()
@@ -115,17 +114,18 @@ class CommandLineHandler:
         bus_task.add_done_callback(self.background_tasks.discard)
 
         # Start MQTT client
-        mqtt_client = MQTTClient(
-            bus=bus,
-            hostname=args.hostname,
-            home_assistant_mode=args.ha_config,
-            port=args.port,
-            username=args.username,
-            password=args.password,
-        )
-        mqtt_task = loop.create_task(mqtt_client.run())
-        self.background_tasks.add(mqtt_task)
-        mqtt_task.add_done_callback(self.background_tasks.discard)
+        if(args.hostname and len(args.addresses) > 0):
+            mqtt_client = MQTTClient(
+                bus=bus,
+                hostname=args.hostname,
+                home_assistant_mode=args.ha_config,
+                port=args.port,
+                username=args.username,
+                password=args.password,
+            )
+            mqtt_task = loop.create_task(mqtt_client.run())
+            self.background_tasks.add(mqtt_task)
+            mqtt_task.add_done_callback(self.background_tasks.discard)
 
         # Start bluetooth handler (manages connections)
         addresses: List[str] = list(set(args.addresses))
@@ -136,7 +136,9 @@ class CommandLineHandler:
 
         # Start prometheus exporter
         if (args.prometheus):
-            start_http_server(9219)
+            prometheus_client = PrometheusClient(bus=bus)
+            prometheus_client.start()
+            
 
 def handle_global_exception(loop, context):
     if 'exception' in context:
