@@ -30,6 +30,22 @@ Docker:
    # MQTT
    $ docker run -v /var/run/dbus:/var/run/dbus ghcr.io/chris03/bluetti_mqtt:latest --broker [MQTT_BROKER_HOST] 00:11:22:33:44:55
 
+Docker Compose:
+
+.. code-block:: yaml
+
+   services:
+     bluetti-mqtt:
+       image: ghcr.io/chris03/bluetti_mqtt:latest
+       restart: unless-stopped
+       ports:
+         - "9219:9219" # Only needed for Prometheus exporter
+       volumes:
+         - /var/run/dbus:/var/run/dbus
+       # For Prometheus exporter only
+       command: --prometheus 00:11:22:33:44:55
+       # For MQTT
+       #command: --broker [MQTT_BROKER_HOST] 00:11:22:33:44:55
 
 Usage
 -----
