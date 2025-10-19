@@ -19,6 +19,15 @@ From Git:
 
    $ pip install https://github.com/chris03/bluetti_mqtt/archive/refs/heads/main.zip
 
+Docker:
+.. code-block:: bash
+   # Example
+   $ docker run -v /var/run/dbus:/var/run/dbus ghcr.io/chris03/bluetti_mqtt:latest <Args>
+   # Prometheus Exporter only
+   $ docker run -p 9219:9219 -v /var/run/dbus:/var/run/dbus ghcr.io/chris03/bluetti_mqtt:latest --prometheus 00:11:22:33:44:55
+   # MQTT
+   $ docker run -v /var/run/dbus:/var/run/dbus ghcr.io/chris03/bluetti_mqtt:latest --broker [MQTT_BROKER_HOST] 00:11:22:33:44:55
+
 Usage
 -----
 
